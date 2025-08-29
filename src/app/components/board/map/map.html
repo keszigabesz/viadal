@@ -1,0 +1,26 @@
+<div class="map-container"></div>
+<div class="field-container">
+  @for (field of fields; track field.id) {
+  <div class="field" [style.left.px]="field.position.x" [style.top.px]="field.position.y">
+    {{ field.id }}
+  </div>
+  }
+</div>
+<div class="castle-container">
+  @for (castle of castles(); track castle.id) {
+  <div class="castle" [style.left.px]="castle.position.x" [style.top.px]="castle.position.y">
+    {{ castle.id }}
+    <div class="owner-flag"><img [src]="'images/flags/' + castle.owner + '.png'" alt="army" /></div>
+  </div>
+  }
+</div>
+@for (army of armies(); track army.id) {
+<div
+  class="army-container"
+  [style.left.px]="getArmyPosition(army.position).x"
+  [style.top.px]="getArmyPosition(army.position).y"
+  (click)="selectArmy(army.id)"
+>
+  <app-army [strength]="army.strength" [owner]="army.owner"></app-army>
+</div>
+}

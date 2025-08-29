@@ -1,0 +1,48 @@
+.map-container {
+  width: 1690px;
+  height: 1440px;
+  background: #e4d6bc url("/images/board/board.png") no-repeat;
+  margin-left: 100px;
+}
+
+.field {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  position: absolute;
+  z-index: 1;
+  cursor: pointer;
+  font-size: 20px;
+}
+.castle {
+  width: 90px;
+  height: 90px;
+  border-radius: 45px;
+  position: absolute;
+  z-index: 1;
+  cursor: pointer;
+  font-size: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  .owner-flag {
+    width: 30px;
+    position:absolute;
+    top: -38px;
+
+    img {
+    width: 100%;
+    height: auto; 
+  }
+  }
+}
+.army-container {
+  position: absolute;
+  /* top: 497px;//486 -11
+  left: 381px;//370 */
+  z-index: 2;
+  box-shadow: rgb(84, 84, 84) 4px 4px 4px;
+  border-radius: 15px;
+}

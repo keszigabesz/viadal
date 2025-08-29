@@ -1,0 +1,17 @@
+.army-card {
+  width: 50px;
+  background-color: white;
+  color: black;
+  border-radius: 15px;
+
+  img {
+    width: 100%;
+    height: auto; 
+  }
+
+  .strength {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
