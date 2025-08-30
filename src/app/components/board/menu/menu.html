@@ -1,3 +1,18 @@
 <div class="menu-container">
- 
+  <!-- <ng-container class="army-flag">
+    @if () {
+
+    }
+  </ng-container> -->
+  <ng-container class="army-info">
+    @if (selectedArmy()) { @if (selectedArmy()?.owner === 'hun') {
+      <div class="army-flag"><img [src]="'images/flags/' + selectedArmy()?.owner + '.png'" alt="army" /></div>
+      <span class="army-name">Magyar mezei had</span>
+      <span class="army-strength">{{ selectedArmy()?.strength }} ezer fő</span>
+    } @else {
+      <div class="army-flag"><img [src]="'images/flags/' + selectedArmy()?.owner + '.png'" alt="army" /></div>
+    <span class="army-name">Török mezei had</span>
+    <span class="army-strength">{{ selectedArmy()?.strength }} ezer fő</span>
+    } }
+  </ng-container>
 </div>

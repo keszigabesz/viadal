@@ -25,5 +25,6 @@ export class Map {
 
   selectArmy(armyId: string) {
     this.gameState.selectArmy(armyId);
+    console.log(this.gameState.getSelectedArmy());
   }
 }

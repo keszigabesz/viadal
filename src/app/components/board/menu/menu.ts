@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { GameStateService } from '@/app/services/game-state.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { GameStateService } from '@/app/services/game-state.service';
 export class Menu {
   private gameState = inject(GameStateService);
 
-  selectedArmy = this.gameState.getSelectedArmy();
+  selectedArmy = computed(() => this.gameState.getSelectedArmy());
   
 
 }
