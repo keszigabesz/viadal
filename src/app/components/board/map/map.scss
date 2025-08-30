@@ -42,5 +42,25 @@
     z-index: 2;
     box-shadow: rgb(84, 84, 84) 4px 4px 4px;
     border-radius: 15px;
+    transition: transform 0.3s ease;
+
+    &.selected {
+      animation: pulse 1.5s infinite;
+      border: 3px solid #ffd700;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+      transform: scale(1.1);
+    }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 1);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
   }
 }

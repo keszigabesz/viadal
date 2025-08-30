@@ -12,6 +12,7 @@ import { Army } from '@components/army/army';
 })
 export class Map {
   fields: Field[] = FIELDS;
+  selectedArmyId: string | null = null;
 
   private armyService = inject(ArmyService);
   private gameState = inject(GameStateService);
@@ -25,6 +26,6 @@ export class Map {
 
   selectArmy(armyId: string) {
     this.gameState.selectArmy(armyId);
-    console.log(this.gameState.getSelectedArmy());
+    this.selectedArmyId = armyId;
   }
 }
