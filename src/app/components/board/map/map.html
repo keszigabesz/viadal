@@ -26,7 +26,7 @@
   @for (army of armies(); track army.id) {
   <div
     class="army-container"
-    [class.selected]="selectedArmyId === army.id"
+    [class.selected]="selectedArmyId() === army.id"
     [style.left.px]="getArmyPosition(army.position).x"
     [style.top.px]="getArmyPosition(army.position).y"
     (click)="selectArmy(army.id)"

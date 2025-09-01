@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { FIELDS, Field } from '@data/fields';
 import { MAP_LAYOUT } from '@/data/map-layout';
 import { ArmyService } from '@/app/services/army.service';
@@ -14,7 +14,6 @@ import { MovementService } from '@/app/services/movement.service';
 })
 export class Map {
   fields: Field[] = FIELDS;
-  selectedArmyId: string | null = null;
 
   private armyService = inject(ArmyService);
   private gameState = inject(GameStateService);
@@ -22,6 +21,7 @@ export class Map {
 
   armies = this.gameState.armies;
   castles = this.gameState.castles;
+  selectedArmyId = computed(() => this.gameState.selectedArmyId());
 
   getArmyPosition(positionId: string) {
     return this.armyService.getArmyPosition(positionId);
@@ -29,25 +29,27 @@ export class Map {
 
   selectArmy(armyId: string) {
     this.gameState.selectArmy(armyId);
-    this.selectedArmyId = armyId;
   }
 
   onPositionClick(positionId: string): void {
-    if (this.selectedArmyId && this.isNeighbor(positionId)) {
+    const currentSelectedId = this.gameState.selectedArmyId();
+    if (currentSelectedId && this.isNeighbor(positionId)) {
       this.moveSelectedArmy(positionId);
     }
   }
 
   private isNeighbor(targetId: string): boolean {
-  const selectedArmy = this.armies().find(army => army.id === this.selectedArmyId);
-  if (!selectedArmy) return false;
-  
-  return this.movementService.isValidMove(selectedArmy.position, targetId);
-}
+    const selectedId = this.gameState.selectedArmyId();
+    const selectedArmy = this.armies().find((army) => army.id === selectedId);
+    if (!selectedArmy) return false;
+
+    return this.movementService.isValidMove(selectedArmy.position, targetId);
+  }
 
   private moveSelectedArmy(newPositionId: string): void {
-    if (this.selectedArmyId) {
-      this.gameState.moveArmy(this.selectedArmyId, newPositionId);
+    const selectedId = this.gameState.selectedArmyId();
+    if (selectedId) {
+      this.gameState.moveArmy(selectedId, newPositionId);
     }
   }
 }

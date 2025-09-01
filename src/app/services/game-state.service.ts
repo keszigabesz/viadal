@@ -43,6 +43,10 @@ export class GameStateService {
     this.selectedArmyId.set(armyId);
   }
 
+  deselectArmy() {
+    this.selectedArmyId.set(null);
+  }
+
   getSelectedArmy() {
     const selectedId = this.selectedArmyId();
     if (!selectedId) return null;

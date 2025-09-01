@@ -5,12 +5,14 @@ import { GameStateService } from '@/app/services/game-state.service';
   selector: 'app-menu',
   imports: [],
   templateUrl: './menu.html',
-  styleUrl: './menu.scss'
+  styleUrl: './menu.scss',
 })
 export class Menu {
   private gameState = inject(GameStateService);
 
   selectedArmy = computed(() => this.gameState.getSelectedArmy());
-  
 
+  deselectArmy() {
+    this.gameState.deselectArmy();
+  }
 }
