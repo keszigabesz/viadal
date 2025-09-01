@@ -11,8 +11,4 @@ export class Menu {
   private gameState = inject(GameStateService);
 
   selectedArmy = computed(() => this.gameState.getSelectedArmy());
-
-  deselectArmy() {
-    this.gameState.deselectArmy();
-  }
 }
