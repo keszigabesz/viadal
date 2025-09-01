@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FIELDS, Field } from '@data/fields';
+import { MAP_LAYOUT } from '@/data/map-layout';
 import { ArmyService } from '@/app/services/army.service';
 import { GameStateService } from '@/app/services/game-state.service';
 import { Army } from '@components/army/army';
@@ -27,5 +28,27 @@ export class Map {
   selectArmy(armyId: string) {
     this.gameState.selectArmy(armyId);
     this.selectedArmyId = armyId;
+  }
+
+  onPositionClick(positionId: string): void {
+    if (this.selectedArmyId && this.isNeighbor(positionId)) {
+      this.moveSelectedArmy(positionId);
+    }
+  }
+
+  private isNeighbor(targetId: string): boolean {
+    const selectedArmy = this.armies().find(army => army.id === this.selectedArmyId);
+    if (!selectedArmy) return false;
+
+    const currentPositionLayout = MAP_LAYOUT.find(layout => layout.id === selectedArmy.position);
+    if (!currentPositionLayout) return false;
+
+    return currentPositionLayout.neighbors.includes(targetId);
+  }
+
+  private moveSelectedArmy(newPositionId: string): void {
+    if (this.selectedArmyId) {
+      this.gameState.moveArmy(this.selectedArmyId, newPositionId);
+    }
   }
 }

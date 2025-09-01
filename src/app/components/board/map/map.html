@@ -1,14 +1,24 @@
 <div class="map-container">
   <div class="field-container">
     @for (field of fields; track field.id) {
-    <div class="field" [style.left.px]="field.position.x" [style.top.px]="field.position.y">
+    <div
+      class="field"
+      [style.left.px]="field.position.x"
+      [style.top.px]="field.position.y"
+      (click)="onPositionClick(field.id)"
+    >
       {{ field.id }}
     </div>
     }
   </div>
   <div class="castle-container">
     @for (castle of castles(); track castle.id) {
-    <div class="castle" [style.left.px]="castle.position.x" [style.top.px]="castle.position.y">
+    <div
+      class="castle"
+      [style.left.px]="castle.position.x"
+      [style.top.px]="castle.position.y"
+      (click)="onPositionClick(castle.id)"
+    >
       {{ castle.id }}
       <div class="owner-flag">
         <img [src]="'images/flags/' + castle.owner + '.png'" alt="army" />
