@@ -1,8 +1,10 @@
+@import '../../../styles/colors';
+
 .board-container {
     display: flex;
     flex-direction: row;
 }
 
 app-map {
-    background-color: #e4d6bc;
+    background-color: $primary-light;
 }

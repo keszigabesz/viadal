@@ -1,8 +1,10 @@
+@import '../../../../styles/colors';
+
 .menu-container {
     position:fixed;
-    border: #999482 5px solid;
-    background-color: #e4d6bc;
-    color: #999482;
+    border: $primary-dark 5px solid;
+    background-color: $primary-light;
+    color: $primary-dark;
     width: 100px;
     height: 500px;
     z-index: 3;
