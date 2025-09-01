@@ -6,9 +6,7 @@
       [style.left.px]="field.position.x"
       [style.top.px]="field.position.y"
       (click)="onPositionClick(field.id)"
-    >
-      {{ field.id }}
-    </div>
+    ></div>
     }
   </div>
   <div class="castle-container">
@@ -19,7 +17,6 @@
       [style.top.px]="castle.position.y"
       (click)="onPositionClick(castle.id)"
     >
-      {{ castle.id }}
       <div class="owner-flag">
         <img [src]="'images/flags/' + castle.owner + '.png'" alt="army" />
       </div>

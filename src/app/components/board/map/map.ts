@@ -4,6 +4,7 @@ import { MAP_LAYOUT } from '@/data/map-layout';
 import { ArmyService } from '@/app/services/army.service';
 import { GameStateService } from '@/app/services/game-state.service';
 import { Army } from '@components/army/army';
+import { MovementService } from '@/app/services/movement.service';
 
 @Component({
   selector: 'app-map',
@@ -17,6 +18,7 @@ export class Map {
 
   private armyService = inject(ArmyService);
   private gameState = inject(GameStateService);
+  private movementService = inject(MovementService);
 
   armies = this.gameState.armies;
   castles = this.gameState.castles;
@@ -37,14 +39,11 @@ export class Map {
   }
 
   private isNeighbor(targetId: string): boolean {
-    const selectedArmy = this.armies().find(army => army.id === this.selectedArmyId);
-    if (!selectedArmy) return false;
-
-    const currentPositionLayout = MAP_LAYOUT.find(layout => layout.id === selectedArmy.position);
-    if (!currentPositionLayout) return false;
-
-    return currentPositionLayout.neighbors.includes(targetId);
-  }
+  const selectedArmy = this.armies().find(army => army.id === this.selectedArmyId);
+  if (!selectedArmy) return false;
+  
+  return this.movementService.isValidMove(selectedArmy.position, targetId);
+}
 
   private moveSelectedArmy(newPositionId: string): void {
     if (this.selectedArmyId) {
