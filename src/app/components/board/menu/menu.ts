@@ -11,4 +11,6 @@ export class Menu {
   private gameState = inject(GameStateService);
 
   selectedArmy = computed(() => this.gameState.getSelectedArmy());
+  isBattleOngoing = computed(() => this.gameState.isBattleOngoing());
+  battleState = computed(() => this.gameState.getBattleState());
 }

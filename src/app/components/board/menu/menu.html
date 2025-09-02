@@ -4,8 +4,11 @@
 
     }
   </ng-container> -->
+
+  <!-- Army view  -->
+  @if (selectedArmy()) {
   <div class="army-info">
-    @if (selectedArmy()) { @if (selectedArmy()?.owner === 'hun') {
+    @if (selectedArmy()?.owner === 'hun') {
     <div class="army-flag">
       <img [src]="'images/flags/' + selectedArmy()?.owner + '.png'" alt="army" />
     </div>
@@ -17,6 +20,40 @@
     </div>
     <span class="army-name">Török mezei had</span>
     <span class="army-strength">{{ selectedArmy()?.strength }} ezer fő</span>
-    } }
+    }
   </div>
+  }
+
+  <!-- Battle view -->
+  @if (isBattleOngoing()) {
+  <div class="battle-info">
+    <h3>Csata</h3>
+
+    <div class="army-section">
+      <h4>Támadó</h4>
+
+      <span class="battle-army-name">
+        <img
+          [src]="'images/flags/' + battleState().attackingArmy?.owner + '.png'"
+          alt="attacking army"
+          class="battle-flag"
+        />
+      </span>
+      <span class="battle-army-strength">{{ battleState().attackingArmy?.strength }} ezer fő</span>
+    </div>
+
+    <div class="army-section">
+      <h4>Védő</h4>
+
+      <span class="battle-army-name">
+        <img
+          [src]="'images/flags/' + battleState().defendingArmy?.owner + '.png'"
+          alt="defending army"
+          class="battle-flag"
+        />
+      </span>
+      <span class="battle-army-strength">{{ battleState().defendingArmy?.strength }} ezer fő</span>
+    </div>
+  </div>
+  }
 </div>

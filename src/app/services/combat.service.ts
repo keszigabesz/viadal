@@ -16,6 +16,7 @@ export class CombatService {
 
   initiateArmyBattle(attackingArmyId: string, defendingArmyId: string): void {
     console.log(`Initiating attack from ${attackingArmyId} to ${defendingArmyId}`);
+    this.gameState.startBattle(attackingArmyId, defendingArmyId);
     // TODO: Implement battle logic
   }
 

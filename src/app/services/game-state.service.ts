@@ -2,6 +2,12 @@ import { Injectable, signal } from '@angular/core';
 import { CASTLES, Castle } from '@data/castles';
 import { STARTING_ARMIES, Army } from '@data/starting-armies';
 
+export interface BattleState {
+  isOngoing: boolean;
+  attackingArmy: Army | null;
+  defendingArmy: Army | null;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -9,6 +15,11 @@ export class GameStateService {
   castles = signal<Castle[]>(CASTLES);
   armies = signal<Army[]>(STARTING_ARMIES);
   selectedArmyId = signal<string | null>(null);
+  battleState = signal<BattleState>({
+    isOngoing: false,
+    attackingArmy: null,
+    defendingArmy: null
+  });
 
   // Castle methods
   changeCastleOwner(castleId: string, newOwner: 'ott' | 'hun') {
@@ -51,5 +62,37 @@ export class GameStateService {
     const selectedId = this.selectedArmyId();
     if (!selectedId) return null;
     return this.armies().find((army) => army.id === selectedId) || null;
+  }
+
+  // Battle methods
+  startBattle(attackingArmyId: string, defendingArmyId: string) {
+    const attackingArmy = this.armies().find(army => army.id === attackingArmyId);
+    const defendingArmy = this.armies().find(army => army.id === defendingArmyId);
+    
+    this.deselectArmy();
+    
+    if (attackingArmy && defendingArmy) {
+      this.battleState.set({
+        isOngoing: true,
+        attackingArmy,
+        defendingArmy
+      });
+    }
+  }
+
+  endBattle() {
+    this.battleState.set({
+      isOngoing: false,
+      attackingArmy: null,
+      defendingArmy: null
+    });
+  }
+
+  isBattleOngoing() {
+    return this.battleState().isOngoing;
+  }
+
+  getBattleState() {
+    return this.battleState();
   }
 }

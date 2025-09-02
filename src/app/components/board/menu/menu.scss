@@ -4,7 +4,8 @@
   position: fixed;
   border: $primary-dark 5px solid;
   background-color: $primary-light;
-  color: $primary-dark;
+  color: $black;
+  font-size: 20px;
   width: 100px;
   height: 500px;
   z-index: 3;
@@ -14,21 +15,45 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
-  }
 
-  .army-flag {
-    width: 100%;
-
-    img {
+    .army-flag {
       width: 100%;
-      height: auto;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    .army-name,
+    .army-strength {
+      text-align: center;
     }
   }
 
-  .army-name,
-  .army-strength {
-    color: $black;
-    font-size: 20px;
-    text-align: center;
+  .battle-info {
+    h3,
+    h4 {
+      margin: 5px 0;
+      text-align: center;
+    }
+
+    .army-section {
+      margin-bottom: 20px;
+    }
+
+    .battle-army-name,
+    .battle-army-strength {
+      display: inline-block;
+      width: 100%;
+    }
+
+    img {
+      width: 100%;
+    }
+
+    .battle-army-strength {
+      text-align: center;
+    }
   }
 }
