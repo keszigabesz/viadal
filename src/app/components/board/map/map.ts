@@ -54,6 +54,7 @@ export class Map {
   }
 
   onPositionClick(positionId: string): void {
+    console.log(positionId);
     const currentSelectedId = this.gameState.selectedArmyId();
     if (currentSelectedId && this.isNeighbor(positionId)) {
       const targetCastle = this.castles().find((castle) => castle.id === positionId);
@@ -77,8 +78,8 @@ export class Map {
     const selectedId = this.gameState.selectedArmyId();
     if (selectedId) {
       this.gameState.moveArmy(selectedId, newPositionId);
-    }
   }
+}
 
   private handleCastleClick(castle: any, selectedArmyId: string): void {
     if (this.combatService.canSiegeCastle(selectedArmyId, castle.id)) {
