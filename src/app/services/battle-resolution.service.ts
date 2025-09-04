@@ -67,7 +67,6 @@ export class BattleResolutionService {
       this.gameState.removeArmy(attackingArmyId);
     } else {
       this.gameState.updateArmyStrength(attackingArmyId, newAttackingStrength);
-      attackerRetreat = attackingArmyId;
     }
 
     const newDefendingStrength = defendingArmyStrength - lossAmount;
@@ -76,9 +75,8 @@ export class BattleResolutionService {
       this.gameState.removeArmy(defendingArmyId);
     } else {
       this.gameState.updateArmyStrength(defendingArmyId, newDefendingStrength);
-      defenderRetreat = defendingArmyId;
     }
 
-    return { attackerRetreat, defenderRetreat };
+    return { attackerRetreat: null, defenderRetreat: null };
   }
 }
