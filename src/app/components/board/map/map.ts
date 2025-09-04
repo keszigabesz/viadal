@@ -4,7 +4,8 @@ import { ArmyService } from '@/app/services/army.service';
 import { GameStateService } from '@/app/services/game-state.service';
 import { Army } from '@components/army/army';
 import { MovementService } from '@/app/services/movement.service';
-import { CombatService } from '@/app/services/combat.service';
+import { BattleService } from '@/app/services/battle.service';
+import { SiegeService } from '@/app/services/siege.service';
 
 @Component({
   selector: 'app-map',
@@ -18,7 +19,8 @@ export class Map {
   private armyService = inject(ArmyService);
   private gameState = inject(GameStateService);
   private movementService = inject(MovementService);
-  private combatService = inject(CombatService);
+  private battleService = inject(BattleService);
+  private siegeService = inject(SiegeService);
 
   armies = this.gameState.armies;
   castles = this.gameState.castles;
@@ -43,7 +45,7 @@ export class Map {
           this.moveSelectedArmy(targetArmy!.position);
         } else {
           // Attack enemy army
-          this.combatService.initiateArmyBattle(currentSelectedId, armyId);
+          this.battleService.initiateArmyBattle(currentSelectedId, armyId);
         }
       } else {
         this.gameState.selectArmy(armyId);
@@ -82,8 +84,8 @@ export class Map {
 }
 
   private handleCastleClick(castle: any, selectedArmyId: string): void {
-    if (this.combatService.canSiegeCastle(selectedArmyId, castle.id)) {
-      this.combatService.commenceSiege(selectedArmyId, castle.id);
+    if (this.siegeService.canSiegeCastle(selectedArmyId, castle.id)) {
+      this.siegeService.commenceSiege(selectedArmyId, castle.id);
     } else {
       this.moveSelectedArmy(castle.id);
     }
