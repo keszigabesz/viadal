@@ -67,6 +67,19 @@ export class BattleResolutionService {
       this.gameState.removeArmy(attackingArmyId);
     } else {
       this.gameState.updateArmyStrength(attackingArmyId, newAttackingStrength);
+      
+      // Handle retreat for mutual losses - only go back 2 positions
+      const army = battleState.attackingArmy;
+      if (army && army.positionHistory.length >= 3) {
+        // Go back 2 positions (index 2 in the position history)
+        const retreatPosition = army.positionHistory[2];
+        this.gameState.moveArmy(attackingArmyId, retreatPosition);
+      } else if (army && army.positionHistory.length >= 2) {
+        // If less than 3 positions in history, go back 1 position
+        const retreatPosition = army.positionHistory[1];
+        this.gameState.moveArmy(attackingArmyId, retreatPosition);
+      }
+      // Don't set attackerRetreat since we handle the movement here
     }
 
     const newDefendingStrength = defendingArmyStrength - lossAmount;
