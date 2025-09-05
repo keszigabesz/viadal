@@ -27,11 +27,23 @@
   <div
     class="army-container"
     [class.selected]="selectedArmyId() === army.id"
-    [style.left.px]="getArmyPosition(army.position).x"
-    [style.top.px]="getArmyPosition(army.position).y"
+    [class.battle-disabled]="isBattleOngoing()"
+    [style.left.px]="getArmyPosition(army.position, army.id).x"
+    [style.top.px]="getArmyPosition(army.position, army.id).y"
     (click)="selectArmy(army.id)"
   >
     <app-army [strength]="army.strength" [owner]="army.owner"></app-army>
+  </div>
+  }
+  
+  <!-- Battle indicator -->
+  @if (isBattleOngoing()) {
+  <div
+    class="battle-indicator"
+    [style.left.px]="getBattlePosition().x"
+    [style.top.px]="getBattlePosition().y"
+  >
+    <img src="images/battle/crossed-swords.png" alt="battle in progress" class="battle-image" />
   </div>
   }
 </div>

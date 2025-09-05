@@ -17,7 +17,7 @@ export const STARTING_ARMIES: Army[] = [
   {
     id: 'army2',
     owner: 'hun',
-    strength: 15,
+    strength: 30,
     position: 'f3',
     positionHistory: ['f3', 'f4', 'f5', 'f6', 'f11'],
   }

@@ -25,12 +25,18 @@ export class Map {
   armies = this.gameState.armies;
   castles = this.gameState.castles;
   selectedArmyId = computed(() => this.gameState.selectedArmyId());
+  isBattleOngoing = computed(() => this.gameState.isBattleOngoing());
 
-  getArmyPosition(positionId: string) {
-    return this.armyService.getArmyPosition(positionId);
+  getArmyPosition(positionId: string, armyId?: string) {
+    return this.armyService.getArmyPosition(positionId, armyId);
   }
 
   selectArmy(armyId: string) {
+    // Don't allow army selection during battle
+    if (this.isBattleOngoing()) {
+      return;
+    }
+
     const currentSelectedId = this.gameState.selectedArmyId();
     if (!currentSelectedId) {
       this.gameState.selectArmy(armyId);
@@ -89,5 +95,18 @@ export class Map {
     } else {
       this.moveSelectedArmy(castle.id);
     }
+  }
+
+  getBattlePosition(): { x: number; y: number } {
+    const battleState = this.gameState.getBattleState();
+    if (battleState.defendingArmy) {
+      const basePosition = this.getArmyPosition(battleState.defendingArmy.position);
+      // Position the battle image above the armies
+      return {
+        x: basePosition.x + 8, // Center horizontally over the armies
+        y: basePosition.y  // Position above the armies
+      };
+    }
+    return { x: 0, y: 0 };
   }
 }
