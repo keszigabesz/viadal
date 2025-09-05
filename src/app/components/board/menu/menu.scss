@@ -5,16 +5,15 @@
   border: colors.$primary-dark 5px solid;
   background-color: colors.$primary-light;
   color: colors.$black;
-  font-size: 20px;
   width: 150px;
-  height: 500px;
+  height: 600px;
   z-index: 3;
 
   .army-info {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 7px;
 
     .army-flag {
       width: 100%;
@@ -36,10 +35,22 @@
     h4 {
       margin: 5px 0;
       text-align: center;
+      font-weight: 400;
+    }
+    h3 {
+      font-weight: 500;
+      font-size: 30px;
     }
 
     .army-section {
       margin-bottom: 20px;
+
+      h4 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+      }
     }
 
     .battle-army-name,
@@ -48,8 +59,19 @@
       width: 100%;
     }
 
+    .battle-flag {
+      width: 35px;
+      height: auto;
+    }
+
     img {
       width: 100%;
+    }
+
+    .battle-image {
+      width: 80px;
+      display: block;
+      margin: 5px auto;
     }
 
     .battle-army-strength {
@@ -74,7 +96,6 @@
           h5 {
             margin: 5px 0;
             text-align: center;
-            font-size: 16px;
           }
 
           .loss-details {
@@ -84,7 +105,6 @@
             gap: 3px;
 
             span {
-              font-size: 14px;
               text-align: center;
             }
           }
