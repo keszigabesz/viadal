@@ -4,7 +4,8 @@
   width: 1690px;
   height: 1440px;
   background: colors.$primary-light url('/images/board/board.png') no-repeat;
-  margin-left: 100px;
+  margin-left: 150px;
+  position: relative;
 
   .field {
     width: 30px;

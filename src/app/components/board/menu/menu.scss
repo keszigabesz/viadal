@@ -2,19 +2,18 @@
 
 .menu-container {
   position: fixed;
-  border: colors.$primary-dark 5px solid;
+  border: colors.$primary-normal 5px solid;
   background-color: colors.$primary-light;
   color: colors.$black;
-  font-size: 20px;
-  width: 100px;
-  height: 500px;
+  width: 150px;
+  height: 600px;
   z-index: 3;
 
   .army-info {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 7px;
 
     .army-flag {
       width: 100%;
@@ -32,28 +31,53 @@
   }
 
   .battle-info {
-    h3,
-    h4 {
+    .battle-image {
+      width: 80px;
+      display: block;
+      margin: 5px auto;
+    }
+
+    h3 {
       margin: 5px 0;
-      text-align: center;
+      font-weight: 500;
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .army-section {
       margin-bottom: 20px;
+
+      h4 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        margin: 5px 0;
+        text-align: center;
+        font-weight: 400;
+      }
+
+      .battle-flag {
+        width: 35px;
+        height: auto;
+      }
+
+      .battle-army-strength {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+      }
     }
 
-    .battle-army-name,
-    .battle-army-strength {
-      display: inline-block;
-      width: 100%;
-    }
-
-    img {
-      width: 100%;
-    }
-
-    .battle-army-strength {
-      text-align: center;
+    .battle-button {
+      display: block;
+      margin: 0 auto;
+      background-color: colors.$primary-dark;
+      border: 0;
+      color: colors.$primary-light;
+      cursor: pointer;
     }
 
     .battle-result {
@@ -61,7 +85,7 @@
         text-align: center;
         margin: 10px 0;
         font-weight: bold;
-        color: colors.$primary-dark;
+        color: colors.$black;
       }
 
       .losses-section {
@@ -71,11 +95,20 @@
         .defender-losses {
           margin-bottom: 15px;
 
-          h5 {
-            margin: 5px 0;
-            text-align: center;
-            font-size: 16px;
-          }
+          h4 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        margin: 5px 0;
+        text-align: center;
+        font-weight: 400;
+      }
+
+      .battle-flag {
+        width: 35px;
+        height: auto;
+      }
 
           .loss-details {
             display: flex;
@@ -84,7 +117,6 @@
             gap: 3px;
 
             span {
-              font-size: 14px;
               text-align: center;
             }
           }
