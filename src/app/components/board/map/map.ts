@@ -32,6 +32,11 @@ export class Map {
   }
 
   selectArmy(armyId: string) {
+    // Don't allow army selection during battle
+    if (this.isBattleOngoing()) {
+      return;
+    }
+
     const currentSelectedId = this.gameState.selectedArmyId();
     if (!currentSelectedId) {
       this.gameState.selectArmy(armyId);
@@ -98,7 +103,7 @@ export class Map {
       const basePosition = this.getArmyPosition(battleState.defendingArmy.position);
       // Position the battle image above the armies
       return {
-        x: basePosition.x + 17, // Center horizontally over the armies
+        x: basePosition.x + 8, // Center horizontally over the armies
         y: basePosition.y  // Position above the armies
       };
     }

@@ -27,6 +27,7 @@
   <div
     class="army-container"
     [class.selected]="selectedArmyId() === army.id"
+    [class.battle-disabled]="isBattleOngoing()"
     [style.left.px]="getArmyPosition(army.position, army.id).x"
     [style.top.px]="getArmyPosition(army.position, army.id).y"
     (click)="selectArmy(army.id)"
