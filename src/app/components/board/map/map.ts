@@ -26,8 +26,8 @@ export class Map {
   castles = this.gameState.castles;
   selectedArmyId = computed(() => this.gameState.selectedArmyId());
 
-  getArmyPosition(positionId: string) {
-    return this.armyService.getArmyPosition(positionId);
+  getArmyPosition(positionId: string, armyId?: string) {
+    return this.armyService.getArmyPosition(positionId, armyId);
   }
 
   selectArmy(armyId: string) {

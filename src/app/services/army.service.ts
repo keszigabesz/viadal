@@ -11,23 +11,49 @@ export class ArmyService {
   private gameState = inject(GameStateService);  
   private movementService = inject(MovementService);
 
-  getArmyPosition(positionId: string): { x: number; y: number } {
+  getArmyPosition(positionId: string, armyId?: string): { x: number; y: number } {
     // First check if it's a field
     const field = this.fields.find(f => f.id === positionId);
     if (field) {
-      return { 
+      let basePosition = { 
         x: field.position.x - 11, 
         y: field.position.y - 11 
       };
+      
+      // If army ID is provided, check for other armies at same position
+      if (armyId) {
+        const armiesAtPosition = this.gameState.armies().filter(a => a.position === positionId);
+        const armyIndex = armiesAtPosition.findIndex(a => a.id === armyId);
+        
+        // Offset armies side by side if multiple at same position
+        if (armiesAtPosition.length > 1 && armyIndex >= 0) {
+          basePosition.x += (armyIndex * 25); // Adjust spacing as needed
+        }
+      }
+      
+      return basePosition;
     }
     
     // Then check if it's a castle
     const castle = this.gameState.castles().find(c => c.id === positionId);
     if (castle) {
-      return {
+      let basePosition = {
         x: castle.position.x + 20,
         y: castle.position.y + 15
       };
+      
+      // If army ID is provided, check for other armies at same position
+      if (armyId) {
+        const armiesAtPosition = this.gameState.armies().filter(a => a.position === positionId);
+        const armyIndex = armiesAtPosition.findIndex(a => a.id === armyId);
+        
+        // Offset armies side by side if multiple at same position
+        if (armiesAtPosition.length > 1 && armyIndex >= 0) {
+          basePosition.x += (armyIndex * 25); // Adjust spacing as needed
+        }
+      }
+      
+      return basePosition;
     }
     
     // Default fallback

@@ -27,8 +27,8 @@
   <div
     class="army-container"
     [class.selected]="selectedArmyId() === army.id"
-    [style.left.px]="getArmyPosition(army.position).x"
-    [style.top.px]="getArmyPosition(army.position).y"
+    [style.left.px]="getArmyPosition(army.position, army.id).x"
+    [style.top.px]="getArmyPosition(army.position, army.id).y"
     (click)="selectArmy(army.id)"
   >
     <app-army [strength]="army.strength" [owner]="army.owner"></app-army>

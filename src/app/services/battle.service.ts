@@ -21,6 +21,12 @@ export class BattleService {
   }
 
   initiateArmyBattle(attackingArmyId: string, defendingArmyId: string): void {
+    // Move the attacking army to the defender's position before starting battle
+    const defendingArmy = this.gameState.armies().find(army => army.id === defendingArmyId);
+    if (defendingArmy) {
+      this.gameState.moveArmy(attackingArmyId, defendingArmy.position);
+    }
+    
     this.gameState.startBattle(attackingArmyId, defendingArmyId);
   }
 
