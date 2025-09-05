@@ -14,8 +14,8 @@ export const CASTLES: Castle[] = [
     name: 'Buda',
     owner: 'ott',
     position: {
-      x: 323,
-      y: 196
+      x: 214,
+      y: 188
     }
   },
   {
@@ -23,8 +23,8 @@ export const CASTLES: Castle[] = [
     name: 'Pest',
     owner: 'ott',
     position: {
-      x: 425,
-      y: 214
+      x: 316,
+      y: 206
     }
   },
   {
@@ -32,8 +32,8 @@ export const CASTLES: Castle[] = [
     name: 'Szolnok',
     owner: 'hun',
     position: {
-      x: 1399,
-      y: 814
+      x: 1290,
+      y: 806
     }
   }
 ];

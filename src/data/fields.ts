@@ -10,183 +10,183 @@ export const FIELDS: Field[] = [
   {
     id: 'f1',
     position: {
-      x: 379,
-      y: 362
+      x: 270,
+      y: 354
     }
   },
   {
     id: 'f2',
     position: {
-      x: 381,
-      y: 497
+      x: 272,
+      y: 489
     }
   },
   {
     id: 'f3',
     position: {
-      x: 332,
-      y: 598
+      x: 223,
+      y: 590
     }
   },
   {
     id: 'f4',
     position: {
-      x: 263,
-      y: 687
+      x: 154,
+      y: 679
     }
   },
   {
     id: 'f5',
     position: {
-      x: 197,
-      y: 771
+      x: 88,
+      y: 763
     }
   },
   {
     id: 'f6',
     position: {
-      x: 139,
-      y: 863
+      x: 30,
+      y: 855
     }
   },
   {
     id: 'f7',
     position: {
-      x: 489,
-      y: 360
+      x: 380,
+      y: 352
     }
   },
   {
     id: 'f8',
     position: {
-      x: 581,
-      y: 453
+      x: 472,
+      y: 445
     }
   },
   {
     id: 'f9',
     position: {
-      x: 676,
-      y: 537
+      x: 567,
+      y: 529
     }
   },
   {
     id: 'f10',
     position: {
-      x: 704,
-      y: 671
+      x: 595,
+      y: 663
     }
   },
   {
     id: 'f11',
     position: {
-      x: 209,
-      y: 927
+      x: 100,
+      y: 919
     }
   },
   {
     id: 'f12',
     position: {
-      x: 296,
-      y: 961
+      x: 187,
+      y: 953
     }
   },
   {
     id: 'f13',
     position: {
-      x: 401,
-      y: 959
+      x: 292,
+      y: 951
     }
   },
   {
     id: 'f14',
     position: {
-      x: 511,
-      y: 921
+      x: 402,
+      y: 913
     }
   },
   {
     id: 'f15',
     position: {
-      x: 609,
-      y: 866
+      x: 500,
+      y: 858
     }
   },
   {
     id: 'f16',
     position: {
-      x: 716,
-      y: 817
+      x: 607,
+      y: 809
     }
   },
   {
     id: 'f17',
     position: {
-      x: 818,
-      y: 812
+      x: 709,
+      y: 804
     }
   },
   {
     id: 'f18',
     position: {
-      x: 936,
-      y: 843
+      x: 827,
+      y: 835
     }
   },
   {
     id: 'f19',
     position: {
-      x: 1051,
-      y: 890
+      x: 942,
+      y: 882
     }
   },
   {
     id: 'f20',
     position: {
-      x: 1180,
-      y: 940
+      x: 1071,
+      y: 932
     }
   },
   {
     id: 'f21',
     position: {
-      x: 1320,
-      y: 924
+      x: 1211,
+      y: 916
     }
   },
   {
     id: 'f22',
     position: {
-      x: 1555,
-      y: 213
+      x: 1446,
+      y: 205
     }
   },
   {
     id: 'f23',
     position: {
-      x: 1512,
-      y: 348
+      x: 1403,
+      y: 340
     }
   },
   {
     id: 'f24',
     position: {
-      x: 1543,
-      y: 487
+      x: 1434,
+      y: 479
     }
   },
   {
     id: 'f25',
     position: {
-      x: 1560,
-      y: 627
+      x: 1451,
+      y: 619
     }
   },
   {
     id: 'f26',
     position: {
-      x: 1493,
-      y: 760
+      x: 1384,
+      y: 752
     }
   }
 ];
