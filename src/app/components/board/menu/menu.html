@@ -21,63 +21,89 @@
   <!-- Battle view -->
   @if (isBattleOngoing()) {
   <div class="battle-info">
-    <img src="images/battle/crossed-swords.png" alt="crossed swords" class="battle-image">
+    <img src="images/battle/crossed-swords.png" alt="crossed swords" class="battle-image" />
     <h3>Csata</h3>
 
     @if (!battleState().isResolved) {
-      <!-- Before battle starts - show armies -->
-      <div class="army-section">
-        <h4>
-          <img
-            [src]="'images/flags/' + battleState().attackingArmy?.owner + '.png'"
-            alt="attacking army"
-            class="battle-flag"
-          />
-          Támadó
-        </h4>
-        <span class="battle-army-strength">{{ battleState().attackingArmy?.strength }} ezer fő</span>
-      </div>
+    <!-- Before battle starts - show armies -->
+    <div class="army-section">
+      <h4>
+        <img
+          [src]="'images/flags/' + battleState().attackingArmy?.owner + '.png'"
+          alt="attacking army"
+          class="battle-flag"
+        />
+        Támadó
+      </h4>
+      <span class="battle-army-strength">{{ battleState().attackingArmy?.strength }} ezer fő</span>
+    </div>
 
-      <div class="army-section">
-        <h4>
-          <img
-            [src]="'images/flags/' + battleState().defendingArmy?.owner + '.png'"
-            alt="defending army"
-            class="battle-flag"
-          />
-          Védő
-        </h4>
-        <span class="battle-army-strength">{{ battleState().defendingArmy?.strength }} ezer fő</span>
-      </div>
-      
-      <button class="battle-start-button" (click)="onStartBattle()">Csata indítása</button>
+    <div class="army-section">
+      <h4>
+        <img
+          [src]="'images/flags/' + battleState().defendingArmy?.owner + '.png'"
+          alt="defending army"
+          class="battle-flag"
+        />
+        Védő
+      </h4>
+      <span class="battle-army-strength">{{ battleState().defendingArmy?.strength }} ezer fő</span>
+    </div>
+
+    <button class="battle-button" (click)="onStartBattle()">Csata indítása</button>
     } @else {
-      <!-- After battle - show results -->
-      <div class="battle-result">
-        <h4 class="outcome">{{ battleState().battleResult?.outcome }}</h4>
-        
-        <div class="losses-section">
-          <div class="attacker-losses">
-            <h5>Támadó veszteségek</h5>
-            <div class="loss-details">
-              <span>Eredeti erő: {{ battleState().battleResult?.originalAttackerStrength }}e</span>
-              <span>Veszteség: {{ battleState().battleResult?.attackerLosses }}e</span>
-              <span>Maradék: {{ (battleState().battleResult?.originalAttackerStrength ?? 0) - (battleState().battleResult?.attackerLosses ?? 0) }}e</span>
-            </div>
+    <!-- After battle - show results -->
+    <div class="battle-result">
+      <h4 class="outcome">{{ battleState().battleResult?.outcome }}</h4>
+
+      <div class="losses-section">
+        <div class="attacker-losses">
+          <h4>
+            <img
+              [src]="'images/flags/' + battleState().attackingArmy?.owner + '.png'"
+              alt="attacking army"
+              class="battle-flag"
+            />
+            Támadó
+          </h4>
+          <div class="loss-details">
+            <span>Eredeti erő: {{ battleState().battleResult?.originalAttackerStrength }}e</span>
+            <span>Veszteség: {{ battleState().battleResult?.attackerLosses }}e</span>
+            <span
+              >Maradék:
+              {{
+                (battleState().battleResult?.originalAttackerStrength ?? 0) -
+                  (battleState().battleResult?.attackerLosses ?? 0)
+              }}e</span
+            >
           </div>
-          
-          <div class="defender-losses">
-            <h5>Védő veszteségek</h5>
-            <div class="loss-details">
-              <span>Eredeti erő: {{ battleState().battleResult?.originalDefenderStrength }}e</span>
-              <span>Veszteség: {{ battleState().battleResult?.defenderLosses }}e</span>
-              <span>Maradék: {{ (battleState().battleResult?.originalDefenderStrength ?? 0) - (battleState().battleResult?.defenderLosses ?? 0) }}e</span>
-            </div>
+        </div>
+
+        <div class="defender-losses">
+          <h4>
+            <img
+              [src]="'images/flags/' + battleState().defendingArmy?.owner + '.png'"
+              alt="defending army"
+              class="battle-flag"
+            />
+            Védő
+          </h4>
+          <div class="loss-details">
+            <span>Eredeti erő: {{ battleState().battleResult?.originalDefenderStrength }}e</span>
+            <span>Veszteség: {{ battleState().battleResult?.defenderLosses }}e</span>
+            <span
+              >Maradék:
+              {{
+                (battleState().battleResult?.originalDefenderStrength ?? 0) -
+                  (battleState().battleResult?.defenderLosses ?? 0)
+              }}e</span
+            >
           </div>
         </div>
       </div>
-      
-      <button class="battle-resolve-button" (click)="onResolveBattle()">Csata lezárása</button>
+    </div>
+
+    <button class="battle-button" (click)="onResolveBattle()">Csata lezárása</button>
     }
   </div>
   }
