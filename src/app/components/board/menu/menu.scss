@@ -55,5 +55,41 @@
     .battle-army-strength {
       text-align: center;
     }
+
+    .battle-result {
+      .outcome {
+        text-align: center;
+        margin: 10px 0;
+        font-weight: bold;
+        color: colors.$primary-dark;
+      }
+
+      .losses-section {
+        margin: 15px 0;
+
+        .attacker-losses,
+        .defender-losses {
+          margin-bottom: 15px;
+
+          h5 {
+            margin: 5px 0;
+            text-align: center;
+            font-size: 16px;
+          }
+
+          .loss-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+
+            span {
+              font-size: 14px;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
   }
 }

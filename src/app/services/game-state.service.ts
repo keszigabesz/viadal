@@ -6,6 +6,14 @@ export interface BattleState {
   isOngoing: boolean;
   attackingArmy: Army | null;
   defendingArmy: Army | null;
+  isResolved: boolean;
+  battleResult?: {
+    outcome: string;
+    attackerLosses: number;
+    defenderLosses: number;
+    originalAttackerStrength: number;
+    originalDefenderStrength: number;
+  };
 }
 
 @Injectable({
@@ -18,7 +26,8 @@ export class GameStateService {
   battleState = signal<BattleState>({
     isOngoing: false,
     attackingArmy: null,
-    defendingArmy: null
+    defendingArmy: null,
+    isResolved: false
   });
 
   // Castle methods
@@ -75,16 +84,38 @@ export class GameStateService {
       this.battleState.set({
         isOngoing: true,
         attackingArmy,
-        defendingArmy
+        defendingArmy,
+        isResolved: false
       });
     }
+  }
+
+  markBattleAsResolved() {
+    this.battleState.update(state => ({
+      ...state,
+      isResolved: true
+    }));
+  }
+
+  setBattleResult(outcome: string, attackerLosses: number, defenderLosses: number, originalAttackerStrength: number, originalDefenderStrength: number) {
+    this.battleState.update(state => ({
+      ...state,
+      battleResult: {
+        outcome,
+        attackerLosses,
+        defenderLosses,
+        originalAttackerStrength,
+        originalDefenderStrength
+      }
+    }));
   }
 
   endBattle() {
     this.battleState.set({
       isOngoing: false,
       attackingArmy: null,
-      defendingArmy: null
+      defendingArmy: null,
+      isResolved: false
     });
   }
 

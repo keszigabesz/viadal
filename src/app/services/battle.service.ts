@@ -22,28 +22,41 @@ export class BattleService {
 
   initiateArmyBattle(attackingArmyId: string, defendingArmyId: string): void {
     this.gameState.startBattle(attackingArmyId, defendingArmyId);
+  }
 
+  executeBattleCalculation(attackingArmyId: string, defendingArmyId: string): void {
     const battleState = this.gameState.getBattleState();
+    const originalAttackerStrength = battleState.attackingArmy?.strength ?? 0;
+    const originalDefenderStrength = battleState.defendingArmy?.strength ?? 0;
+    
     const diceCast = this.diceService.rollDie();
     
     const ratio = this.battleCalculation.calculateRatio(
-      battleState.attackingArmy?.strength ?? 1,
-      battleState.defendingArmy?.strength ?? 1
+      originalAttackerStrength,
+      originalDefenderStrength
     );
 
     const outcome = this.battleCalculation.determineBattleOutcome(diceCast, ratio);
     
-    this.resolveBattle(outcome, attackingArmyId, defendingArmyId);
-    this.gameState.endBattle();
+    this.resolveBattle(outcome, attackingArmyId, defendingArmyId, originalAttackerStrength, originalDefenderStrength);
+    this.gameState.markBattleAsResolved();
   }
 
-  private resolveBattle(outcome: BattleOutcome, attackingArmyId: string, defendingArmyId: string): void {
+  private resolveBattle(outcome: BattleOutcome, attackingArmyId: string, defendingArmyId: string, originalAttackerStrength: number, originalDefenderStrength: number): void {
+    let outcomeText = '';
+    let attackerLosses = 0;
+    let defenderLosses = 0;
+
     switch (outcome) {
       case BattleOutcome.DECISIVE_VICTORY:
+        outcomeText = 'Döntő győzelem';
+        defenderLosses = originalDefenderStrength;
         this.battleResolution.resolveDecisiveVictory(attackingArmyId, defendingArmyId);
         break;
 
       case BattleOutcome.ATTACKER_WINS:
+        outcomeText = 'Támadó győzelem';
+        defenderLosses = Math.ceil(originalDefenderStrength / 3);
         const defenderToRetreat = this.battleResolution.resolveAttackerWins(attackingArmyId, defendingArmyId);
         if (defenderToRetreat) {
           this.initiateRetreat(defenderToRetreat);
@@ -51,6 +64,8 @@ export class BattleService {
         break;
 
       case BattleOutcome.DEFENDER_WINS:
+        outcomeText = 'Védő győzelem';
+        attackerLosses = Math.ceil(originalDefenderStrength / 3);
         const attackerToRetreat = this.battleResolution.resolveDefenderWins(attackingArmyId, defendingArmyId);
         if (attackerToRetreat) {
           this.initiateRetreat(attackerToRetreat);
@@ -58,6 +73,9 @@ export class BattleService {
         break;
 
       case BattleOutcome.MUTUAL_LOSSES:
+        outcomeText = 'Kölcsönös veszteségek';
+        attackerLosses = Math.ceil(originalDefenderStrength / 5);
+        defenderLosses = Math.ceil(originalDefenderStrength / 5);
         const { attackerRetreat, defenderRetreat } = this.battleResolution.resolveMutualLosses(attackingArmyId, defendingArmyId);
         if (attackerRetreat) {
           this.initiateRetreat(attackerRetreat);
@@ -67,6 +85,8 @@ export class BattleService {
         }
         break;
     }
+
+    this.gameState.setBattleResult(outcomeText, attackerLosses, defenderLosses, originalAttackerStrength, originalDefenderStrength);
   }
 
   private initiateRetreat(armyId: string): void {
