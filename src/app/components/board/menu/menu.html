@@ -54,6 +54,8 @@
       </span>
       <span class="battle-army-strength">{{ battleState().defendingArmy?.strength }} ezer fő</span>
     </div>
+    <button class="battle-start-button" (click)="onStartBattle()">Csata indítása</button>
+    <button class="battle-resolve-button" (click)="onResolveBattle()">Csata lezárása</button>
   </div>
   }
 </div>
