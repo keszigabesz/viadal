@@ -34,4 +34,15 @@
     <app-army [strength]="army.strength" [owner]="army.owner"></app-army>
   </div>
   }
+  
+  <!-- Battle indicator -->
+  @if (isBattleOngoing()) {
+  <div
+    class="battle-indicator"
+    [style.left.px]="getBattlePosition().x"
+    [style.top.px]="getBattlePosition().y"
+  >
+    <img src="images/battle/crossed-swords.png" alt="battle in progress" class="battle-image" />
+  </div>
+  }
 </div>
