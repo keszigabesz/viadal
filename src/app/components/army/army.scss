@@ -1,9 +1,9 @@
-@import '../../../styles/colors';
+@use '../../../styles/colors';
 
 .army-card {
   width: 50px;
-  background-color: $white;
-  color: $black;
+  background-color: colors.$white;
+  color: colors.$black;
   border-radius: 15px;
 
   img {

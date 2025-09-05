@@ -1,9 +1,9 @@
-@import '../../../../styles/colors';
+@use '../../../../styles/colors';
 
 .map-container {
   width: 1690px;
   height: 1440px;
-  background: $primary-light url('/images/board/board.png') no-repeat;
+  background: colors.$primary-light url('/images/board/board.png') no-repeat;
   margin-left: 100px;
 
   .field {
@@ -38,7 +38,7 @@
     position: absolute;
     cursor: pointer;
     z-index: 2;
-    box-shadow: $shadow-gray 4px 4px 4px;
+    box-shadow: colors.$shadow-gray 4px 4px 4px;
     border-radius: 0 0 15px 15px;
     transition: transform 0.3s ease;
 

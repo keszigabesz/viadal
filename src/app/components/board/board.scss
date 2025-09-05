@@ -1,4 +1,4 @@
-@import '../../../styles/colors';
+@use '../../../styles/colors';
 
 .board-container {
     display: flex;
@@ -6,5 +6,5 @@
 }
 
 app-map {
-    background-color: $primary-light;
+    background-color: colors.$primary-light;
 }
