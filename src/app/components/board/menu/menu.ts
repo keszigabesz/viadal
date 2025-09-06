@@ -16,6 +16,18 @@ export class Menu {
   isBattleOngoing = computed(() => this.gameState.isBattleOngoing());
   battleState = computed(() => this.gameState.getBattleState());
 
+  attackerRemainingForce = computed(() => {
+    const result = this.battleState().battleResult;
+    if (!result) return 0;
+    return Math.max(0, (result.originalAttackerStrength ?? 0) - (result.attackerLosses ?? 0));
+  });
+
+  defenderRemainingForce = computed(() => {
+    const result = this.battleState().battleResult;
+    if (!result) return 0;
+    return Math.max(0, (result.originalDefenderStrength ?? 0) - (result.defenderLosses ?? 0));
+  });
+
   onStartBattle() {
     const battleState = this.battleState();
     if (battleState.attackingArmy && battleState.defendingArmy) {
