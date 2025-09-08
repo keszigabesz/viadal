@@ -44,12 +44,6 @@
     transition: left 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
       top 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s ease;
 
-    /*  Optional: to make movement more dramatic
-    
-      transition: left 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55), 
-                  top 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55),
-                  transform 0.3s ease;  */
-
     &.battle-disabled {
       cursor: not-allowed;
       pointer-events: none;
@@ -62,7 +56,7 @@
   .battle-indicator {
     position: absolute;
     z-index: 3;
-    pointer-events: none; // Don't interfere with army clicks
+    pointer-events: none;
 
     .battle-image {
       width: 60px;
@@ -85,11 +79,9 @@
 
   @keyframes battle-pulse {
     from {
-      opacity: 0.8;
       transform: scale(1);
     }
     to {
-      opacity: 1;
       transform: scale(1.2);
     }
   }
