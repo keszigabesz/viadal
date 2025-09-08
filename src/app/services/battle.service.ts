@@ -71,7 +71,7 @@ export class BattleService {
 
       case BattleOutcome.DEFENDER_WINS:
         outcomeText = 'Védő győzelme';
-        attackerLosses = Math.ceil(originalDefenderStrength / 3);
+        attackerLosses = Math.min(Math.ceil(originalDefenderStrength / 3), originalAttackerStrength);
         const attackerToRetreat = this.battleResolution.resolveDefenderWins(attackingArmyId, defendingArmyId);
         if (attackerToRetreat) {
           await this.initiateRetreat(attackerToRetreat);
@@ -80,7 +80,7 @@ export class BattleService {
 
       case BattleOutcome.MUTUAL_LOSSES:
         outcomeText = 'Döntetlen';
-        attackerLosses = Math.ceil(originalDefenderStrength / 5);
+        attackerLosses = Math.min(Math.ceil(originalDefenderStrength / 5), originalAttackerStrength);
         defenderLosses = Math.ceil(originalDefenderStrength / 5);
         const { attackerRetreat, defenderRetreat } = this.battleResolution.resolveMutualLosses(attackingArmyId, defendingArmyId);
         
