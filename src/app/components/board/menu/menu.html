@@ -50,7 +50,16 @@
       <span class="battle-army-strength">{{ battleState().defendingArmy?.strength }} ezer fő</span>
     </div>
 
-    <button class="battle-button" (click)="onStartBattle()">Csata indítása</button>
+    @if (!isBattleButtonDisabled()) {
+    <button 
+      class="battle-button" 
+      (click)="onStartBattle()"
+    >
+      Csata indítása
+    </button>
+    } @else {
+    <div class="battle-status">Csata folyamatban...</div>
+    }
     } @else {
     <!-- After battle - show results -->
     <div class="battle-result">
