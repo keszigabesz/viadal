@@ -50,7 +50,16 @@
       <span class="battle-army-strength">{{ battleState().defendingArmy?.strength }} ezer fő</span>
     </div>
 
-    <button class="battle-button" (click)="onStartBattle()">Csata indítása</button>
+    @if (!isBattleButtonDisabled()) {
+    <button 
+      class="battle-button" 
+      (click)="onStartBattle()"
+    >
+      Csata indítása
+    </button>
+    } @else {
+    <div class="battle-status">Csata folyamatban...</div>
+    }
     } @else {
     <!-- After battle - show results -->
     <div class="battle-result">
@@ -69,13 +78,7 @@
           <div class="loss-details">
             <span>Eredeti erő: {{ battleState().battleResult?.originalAttackerStrength }}e</span>
             <span>Veszteség: {{ battleState().battleResult?.attackerLosses }}e</span>
-            <span
-              >Maradék:
-              {{
-                (battleState().battleResult?.originalAttackerStrength ?? 0) -
-                  (battleState().battleResult?.attackerLosses ?? 0)
-              }}e</span
-            >
+            <span>Maradék: {{ attackerRemainingForce() }}e</span>
           </div>
         </div>
 
@@ -91,13 +94,7 @@
           <div class="loss-details">
             <span>Eredeti erő: {{ battleState().battleResult?.originalDefenderStrength }}e</span>
             <span>Veszteség: {{ battleState().battleResult?.defenderLosses }}e</span>
-            <span
-              >Maradék:
-              {{
-                (battleState().battleResult?.originalDefenderStrength ?? 0) -
-                  (battleState().battleResult?.defenderLosses ?? 0)
-              }}e</span
-            >
+            <span>Maradék: {{ defenderRemainingForce() }}e</span>
           </div>
         </div>
       </div>

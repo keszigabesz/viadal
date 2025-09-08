@@ -78,6 +78,21 @@
       border: 0;
       color: colors.$primary-light;
       cursor: pointer;
+
+      &:hover {
+        background-color: colors.$primary-light;
+        color: colors.$primary-dark;
+        border: colors.$primary-dark 2px solid;
+      }
+    }
+
+    .battle-status {
+      text-align: center;
+      padding: 10px;
+      font-style: italic;
+      color: colors.$primary-dark;
+      margin: 0 auto;
+      display: block;
     }
 
     .battle-result {
@@ -96,19 +111,19 @@
           margin-bottom: 15px;
 
           h4 {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-        margin: 5px 0;
-        text-align: center;
-        font-weight: 400;
-      }
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin: 5px 0;
+            text-align: center;
+            font-weight: 400;
+          }
 
-      .battle-flag {
-        width: 35px;
-        height: auto;
-      }
+          .battle-flag {
+            width: 35px;
+            height: auto;
+          }
 
           .loss-details {
             display: flex;

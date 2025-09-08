@@ -1,4 +1,4 @@
-import { Component, inject, computed } from '@angular/core';
+import { Component, inject, computed, signal } from '@angular/core';
 import { GameStateService } from '@/app/services/game-state.service';
 import { BattleService } from '@/app/services/battle.service';
 
@@ -16,10 +16,31 @@ export class Menu {
   isBattleOngoing = computed(() => this.gameState.isBattleOngoing());
   battleState = computed(() => this.gameState.getBattleState());
 
-  onStartBattle() {
+  private isBattleCalculating = signal(false);
+
+  attackerRemainingForce = computed(() => {
+    const result = this.battleState().battleResult;
+    if (!result) return 0;
+    return Math.max(0, (result.originalAttackerStrength ?? 0) - (result.attackerLosses ?? 0));
+  });
+
+  defenderRemainingForce = computed(() => {
+    const result = this.battleState().battleResult;
+    if (!result) return 0;
+    return Math.max(0, (result.originalDefenderStrength ?? 0) - (result.defenderLosses ?? 0));
+  });
+
+  isBattleButtonDisabled = computed(() => this.isBattleCalculating());
+
+  async onStartBattle() {
     const battleState = this.battleState();
-    if (battleState.attackingArmy && battleState.defendingArmy) {
-      this.battleService.executeBattleCalculation(battleState.attackingArmy.id, battleState.defendingArmy.id);
+    if (battleState.attackingArmy && battleState.defendingArmy && !this.isBattleCalculating()) {
+      this.isBattleCalculating.set(true);
+      try {
+        await this.battleService.executeBattleCalculation(battleState.attackingArmy.id, battleState.defendingArmy.id);
+      } finally {
+        this.isBattleCalculating.set(false);
+      }
     }
   }
 

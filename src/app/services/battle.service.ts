@@ -30,7 +30,7 @@ export class BattleService {
     this.gameState.startBattle(attackingArmyId, defendingArmyId);
   }
 
-  executeBattleCalculation(attackingArmyId: string, defendingArmyId: string): void {
+  async executeBattleCalculation(attackingArmyId: string, defendingArmyId: string): Promise<void> {
     const battleState = this.gameState.getBattleState();
     const originalAttackerStrength = battleState.attackingArmy?.strength ?? 0;
     const originalDefenderStrength = battleState.defendingArmy?.strength ?? 0;
@@ -44,11 +44,11 @@ export class BattleService {
 
     const outcome = this.battleCalculation.determineBattleOutcome(diceCast, ratio);
     
-    this.resolveBattle(outcome, attackingArmyId, defendingArmyId, originalAttackerStrength, originalDefenderStrength);
+    await this.resolveBattle(outcome, attackingArmyId, defendingArmyId, originalAttackerStrength, originalDefenderStrength);
     this.gameState.markBattleAsResolved();
   }
 
-  private resolveBattle(outcome: BattleOutcome, attackingArmyId: string, defendingArmyId: string, originalAttackerStrength: number, originalDefenderStrength: number): void {
+  private async resolveBattle(outcome: BattleOutcome, attackingArmyId: string, defendingArmyId: string, originalAttackerStrength: number, originalDefenderStrength: number): Promise<void> {
     let outcomeText = '';
     let attackerLosses = 0;
     let defenderLosses = 0;
@@ -65,29 +65,31 @@ export class BattleService {
         defenderLosses = Math.ceil(originalDefenderStrength / 3);
         const defenderToRetreat = this.battleResolution.resolveAttackerWins(attackingArmyId, defendingArmyId);
         if (defenderToRetreat) {
-          this.initiateRetreat(defenderToRetreat);
+          await this.initiateRetreat(defenderToRetreat);
         }
         break;
 
       case BattleOutcome.DEFENDER_WINS:
         outcomeText = 'Védő győzelme';
-        attackerLosses = Math.ceil(originalDefenderStrength / 3);
+        attackerLosses = Math.min(Math.ceil(originalDefenderStrength / 3), originalAttackerStrength);
         const attackerToRetreat = this.battleResolution.resolveDefenderWins(attackingArmyId, defendingArmyId);
         if (attackerToRetreat) {
-          this.initiateRetreat(attackerToRetreat);
+          await this.initiateRetreat(attackerToRetreat);
         }
         break;
 
       case BattleOutcome.MUTUAL_LOSSES:
         outcomeText = 'Döntetlen';
-        attackerLosses = Math.ceil(originalDefenderStrength / 5);
+        attackerLosses = Math.min(Math.ceil(originalDefenderStrength / 5), originalAttackerStrength);
         defenderLosses = Math.ceil(originalDefenderStrength / 5);
         const { attackerRetreat, defenderRetreat } = this.battleResolution.resolveMutualLosses(attackingArmyId, defendingArmyId);
+        
+        // Handle both retreats sequentially
         if (attackerRetreat) {
-          this.initiateRetreat(attackerRetreat);
+          await this.initiateRetreat(attackerRetreat);
         }
         if (defenderRetreat) {
-          this.initiateRetreat(defenderRetreat);
+          await this.initiateRetreat(defenderRetreat);
         }
         break;
     }
@@ -95,7 +97,7 @@ export class BattleService {
     this.gameState.setBattleResult(outcomeText, attackerLosses, defenderLosses, originalAttackerStrength, originalDefenderStrength);
   }
 
-  private initiateRetreat(armyId: string): void {
+  private async initiateRetreat(armyId: string): Promise<void> {
     const army = this.gameState.armies().find((a) => a.id === armyId);
     console.log('army:', army);
     if (!army || army.positionHistory.length <= 1) {
@@ -109,6 +111,9 @@ export class BattleService {
 
       // Move to this retreat position
       this.gameState.moveArmy(armyId, retreatPosition);
+
+      // Wait for the animation to complete - match your CSS transition duration
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Increased to 1 second to match CSS
 
       // Check if there's an enemy army at this retreat position
       const enemyAtRetreatPosition = this.gameState
