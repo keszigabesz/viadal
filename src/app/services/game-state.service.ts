@@ -54,7 +54,26 @@ export class GameStateService {
 
   moveArmy(armyId: string, newPosition: string) {
     this.armies.update((current) =>
-      current.map((army) => (army.id === armyId ? { ...army, position: newPosition } : army))
+      current.map((army) => {
+        if (army.id === armyId) {
+          // Check if the new position already exists in the history
+          const existingIndex = army.positionHistory.indexOf(newPosition);
+          
+          let updatedHistory: string[];
+          if (existingIndex !== -1) {
+            // If position exists in history, restore history to that point
+            updatedHistory = army.positionHistory.slice(existingIndex);
+          } else {
+            // If it's a new position, add to beginning and keep only last 5
+            updatedHistory = [newPosition, ...army.positionHistory].slice(0, 5);
+          }
+          
+          console.log('Moving army', armyId, 'from', army.position, 'to', newPosition);
+          console.log('Updated position history:', updatedHistory);
+          return { ...army, position: newPosition, positionHistory: updatedHistory };
+        }
+        return army;
+      })
     );
   }
 
