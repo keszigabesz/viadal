@@ -1,4 +1,25 @@
 <div class="menu-container">
+  <div class="turn-info">
+    <div class="turn-display">
+      <h3>{{ turnNumber() }}. kör</h3>
+      <div class="current-player">
+        <img 
+          [src]="'images/flags/' + currentPlayer() + '.png'" 
+          alt="current player" 
+          class="player-flag"
+        />
+        <span class="player-name">
+          {{ currentPlayer() === 'ott' ? 'Török' : 'Magyar' }} játékos
+        </span>
+      </div>
+      @if (!isBattleOngoing()) {
+      <button class="menu-button" (click)="onEndTurn()">
+        Kör vége
+      </button>
+      }
+    </div>
+  </div>
+
   <!-- Army view  -->
   @if (selectedArmy() && !isBattleOngoing()) {
   <div class="army-info">
@@ -52,7 +73,7 @@
 
     @if (!isBattleButtonDisabled()) {
     <button 
-      class="battle-button" 
+      class="menu-button" 
       (click)="onStartBattle()"
     >
       Csata indítása
@@ -100,7 +121,7 @@
       </div>
     </div>
 
-    <button class="battle-button" (click)="onResolveBattle()">Rendben</button>
+    <button class="menu-button" (click)="onResolveBattle()">Rendben</button>
     }
   </div>
   }

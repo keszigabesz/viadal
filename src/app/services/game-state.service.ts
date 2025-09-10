@@ -30,6 +30,10 @@ export class GameStateService {
     isResolved: false
   });
 
+  // Turn management
+  turnNumber = signal<number>(1);
+  currentPlayer = signal<'ott' | 'hun'>('ott'); // Ottoman goes first
+
   // Castle methods
   changeCastleOwner(castleId: string, newOwner: 'ott' | 'hun') {
     this.castles.update((current) =>
@@ -144,5 +148,33 @@ export class GameStateService {
 
   getBattleState() {
     return this.battleState();
+  }
+
+  // Turn methods
+  endTurn() {
+    this.currentPlayer.update(current => current === 'ott' ? 'hun' : 'ott');
+    
+    // Only increment turn number when Ottoman's turn ends (completing a full round)
+    if (this.currentPlayer() === 'ott') {
+      this.turnNumber.update(turn => turn + 1);
+    }
+    
+    this.deselectArmy(); // Deselect any selected army when turn ends
+  }
+
+  getCurrentPlayer() {
+    return this.currentPlayer();
+  }
+
+  getTurnNumber() {
+    return this.turnNumber();
+  }
+
+  isPlayerTurn(player: 'ott' | 'hun') {
+    return this.currentPlayer() === player;
+  }
+
+  getArmyById(armyId: string) {
+    return this.armies().find(army => army.id === armyId) || null;
   }
 }

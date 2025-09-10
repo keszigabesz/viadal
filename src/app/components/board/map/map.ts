@@ -38,23 +38,40 @@ export class Map {
     }
 
     const currentSelectedId = this.gameState.selectedArmyId();
+    
+    // If no army is currently selected, only allow selecting own armies
     if (!currentSelectedId) {
+      const targetArmy = this.gameState.getArmyById(armyId);
+      const currentPlayer = this.gameState.getCurrentPlayer();
+      
+      if (!targetArmy || targetArmy.owner !== currentPlayer) {
+        // Don't select enemy armies when no army is selected
+        return;
+      }
+      
       this.gameState.selectArmy(armyId);
       return;
     }
     
+    // If an army is already selected, continue with existing logic
     if (currentSelectedId !== armyId) {
       if (this.armyService.canInteractWithArmy(currentSelectedId, armyId)) {
         if (this.armyService.areSameOwner(currentSelectedId, armyId)) {
           // Move to ally position
-          const targetArmy = this.armies().find(army => army.id === armyId);
+          const targetArmy = this.gameState.getArmyById(armyId);
           this.moveSelectedArmy(targetArmy!.position);
         } else {
           // Attack enemy army
           this.battleService.initiateArmyBattle(currentSelectedId, armyId);
         }
       } else {
-        this.gameState.selectArmy(armyId);
+        // Can only select own armies when switching selection
+        const targetArmy = this.gameState.getArmyById(armyId);
+        const currentPlayer = this.gameState.getCurrentPlayer();
+        
+        if (targetArmy && targetArmy.owner === currentPlayer) {
+          this.gameState.selectArmy(armyId);
+        }
       }
     } else {
       this.gameState.deselectArmy();
@@ -76,7 +93,9 @@ export class Map {
 
   private isNeighbor(targetId: string): boolean {
     const selectedId = this.gameState.selectedArmyId();
-    const selectedArmy = this.armies().find((army) => army.id === selectedId);
+    if (!selectedId) return false;
+    
+    const selectedArmy = this.gameState.getArmyById(selectedId);
     if (!selectedArmy) return false;
 
     return this.movementService.isValidMove(selectedArmy.position, targetId);
@@ -86,8 +105,8 @@ export class Map {
     const selectedId = this.gameState.selectedArmyId();
     if (selectedId) {
       this.gameState.moveArmy(selectedId, newPositionId);
+    }
   }
-}
 
   private handleCastleClick(castle: any, selectedArmyId: string): void {
     if (this.siegeService.canSiegeCastle(selectedArmyId, castle.id)) {

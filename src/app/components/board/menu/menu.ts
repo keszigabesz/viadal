@@ -16,6 +16,10 @@ export class Menu {
   isBattleOngoing = computed(() => this.gameState.isBattleOngoing());
   battleState = computed(() => this.gameState.getBattleState());
 
+  // Add turn-related computeds
+  currentPlayer = computed(() => this.gameState.getCurrentPlayer());
+  turnNumber = computed(() => this.gameState.getTurnNumber());
+
   private isBattleCalculating = signal(false);
 
   attackerRemainingForce = computed(() => {
@@ -47,5 +51,10 @@ export class Menu {
   onResolveBattle() {
     this.gameState.deselectArmy();
     this.gameState.endBattle();
+  }
+
+  // Add end turn method
+  onEndTurn() {
+    this.gameState.endTurn();
   }
 }
