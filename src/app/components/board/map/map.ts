@@ -110,6 +110,9 @@ export class Map {
 
   private handleCastleClick(castle: any, selectedArmyId: string): void {
     if (this.siegeService.canSiegeCastle(selectedArmyId, castle.id)) {
+      // Move the army to the castle position first
+      this.moveSelectedArmy(castle.id);
+      // Then commence the siege
       this.siegeService.commenceSiege(selectedArmyId, castle.id);
     } else {
       this.moveSelectedArmy(castle.id);

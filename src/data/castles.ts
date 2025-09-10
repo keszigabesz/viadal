@@ -6,6 +6,7 @@ export interface Castle {
     x: number;
     y: number;
   };
+  strength: number;
 }
 
 export const CASTLES: Castle[] = [
@@ -16,7 +17,8 @@ export const CASTLES: Castle[] = [
     position: {
       x: 214,
       y: 188
-    }
+    },
+    strength: 10
   },
   {
     id: 'c2',
@@ -25,7 +27,8 @@ export const CASTLES: Castle[] = [
     position: {
       x: 316,
       y: 206
-    }
+    },
+    strength: 5
   },
   {
     id: 'c3',
@@ -34,6 +37,7 @@ export const CASTLES: Castle[] = [
     position: {
       x: 1290,
       y: 806
-    }
+    },
+    strength: 3
   }
 ];
