@@ -61,8 +61,8 @@ export class ArmyService {
   }
 
   canInteractWithArmy(selectedArmyId: string, targetArmyId: string): boolean {
-    const selectedArmy = this.gameState.armies().find(army => army.id === selectedArmyId);
-    const targetArmy = this.gameState.armies().find(army => army.id === targetArmyId);
+    const selectedArmy = this.gameState.getArmyById(selectedArmyId);
+    const targetArmy = this.gameState.getArmyById(targetArmyId);
     
     if (!selectedArmy || !targetArmy) return false;
     
@@ -70,8 +70,8 @@ export class ArmyService {
   }
 
   areSameOwner(armyId1: string, armyId2: string): boolean {
-    const army1 = this.gameState.armies().find(army => army.id === armyId1);
-    const army2 = this.gameState.armies().find(army => army.id === armyId2);
+    const army1 = this.gameState.getArmyById(armyId1);
+    const army2 = this.gameState.getArmyById(armyId2);
     
     return army1?.owner === army2?.owner;
   }

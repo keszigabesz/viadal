@@ -8,7 +8,7 @@ export class SiegeService {
   private gameState = inject(GameStateService);
 
   canSiegeCastle(armyId: string, castleId: string): boolean {
-    const army = this.gameState.armies().find((a) => a.id === armyId);
+    const army = this.gameState.getArmyById(armyId);
     const castle = this.gameState.castles().find((c) => c.id === castleId);
     const armyAtCastle = this.gameState.armies().find((a) => a.position === castleId);
 

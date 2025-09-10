@@ -173,4 +173,8 @@ export class GameStateService {
   isPlayerTurn(player: 'ott' | 'hun') {
     return this.currentPlayer() === player;
   }
+
+  getArmyById(armyId: string) {
+    return this.armies().find(army => army.id === armyId) || null;
+  }
 }
