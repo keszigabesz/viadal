@@ -9,6 +9,57 @@
   height: 600px;
   z-index: 10;
 
+  h3 {
+      margin: 5px 0;
+      font-weight: 500;
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+  .menu-button {
+      display: block;
+      margin: 0 auto;
+      background-color: colors.$primary-dark;
+      border: 0;
+      color: colors.$primary-light;
+      cursor: pointer;
+
+      &:hover {
+        background-color: colors.$primary-light;
+        color: colors.$primary-dark;
+        border: colors.$primary-dark 2px solid;
+      }
+    }
+
+  .turn-info {
+    padding-bottom: 10px;
+    border-bottom: 2px solid colors.$primary-normal;
+
+    .turn-display {
+      text-align: center;
+
+      .current-player {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+
+        .player-flag {
+          width: 40px;
+          height: auto;
+        }
+
+        .player-name {
+          font-weight: 500;
+          color: colors.$primary-dark;
+        }
+      }
+    }
+  }
+
   .army-info {
     display: flex;
     flex-direction: column;
@@ -16,7 +67,8 @@
     gap: 7px;
 
     .army-flag {
-      width: 100%;
+      padding-top: 10px;
+      width: 40px;
 
       img {
         width: 100%;
@@ -32,18 +84,9 @@
 
   .battle-info {
     .battle-image {
-      width: 80px;
+      width: 40px;
       display: block;
       margin: 5px auto;
-    }
-
-    h3 {
-      margin: 5px 0;
-      font-weight: 500;
-      font-size: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .army-section {
@@ -71,21 +114,6 @@
       }
     }
 
-    .battle-button {
-      display: block;
-      margin: 0 auto;
-      background-color: colors.$primary-dark;
-      border: 0;
-      color: colors.$primary-light;
-      cursor: pointer;
-
-      &:hover {
-        background-color: colors.$primary-light;
-        color: colors.$primary-dark;
-        border: colors.$primary-dark 2px solid;
-      }
-    }
-
     .battle-status {
       text-align: center;
       padding: 10px;
@@ -104,7 +132,6 @@
       }
 
       .losses-section {
-        margin: 15px 0;
 
         .attacker-losses,
         .defender-losses {
