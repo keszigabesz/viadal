@@ -20,6 +20,11 @@
       <div class="owner-flag">
         <img [src]="'images/flags/' + castle.owner + '.png'" alt="army" />
       </div>
+      @if (isCastleUnderSiege(castle.id)) {
+      <div class="siege-icon">
+        <img [src]="'images/siege/siege-icon.png'" alt="siege" />
+      </div>
+      }
     </div>
     }
   </div>

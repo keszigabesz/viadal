@@ -16,6 +16,14 @@ export interface BattleState {
   };
 }
 
+export interface SiegeState {
+  id: string;
+  siegingArmyId: string;
+  castleId: string;
+  siegeTurn: number;
+  startedOnTurn: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -29,6 +37,8 @@ export class GameStateService {
     defendingArmy: null,
     isResolved: false
   });
+
+  activeSieges = signal<SiegeState[]>([]);
 
   // Turn management
   turnNumber = signal<number>(1);
@@ -158,6 +168,9 @@ export class GameStateService {
     if (this.currentPlayer() === 'ott') {
       this.turnNumber.update(turn => turn + 1);
     }
+
+    // Increment all active siege turns
+    this.incrementAllSiegeTurns();
     
     this.deselectArmy(); // Deselect any selected army when turn ends
   }
@@ -176,5 +189,59 @@ export class GameStateService {
 
   getArmyById(armyId: string) {
     return this.armies().find(army => army.id === armyId) || null;
+  }
+
+  // Siege methods
+  startSiege(armyId: string, castleId: string): string {
+    const siegeId = `siege_${armyId}_${castleId}_${Date.now()}`;
+    const newSiege: SiegeState = {
+      id: siegeId,
+      siegingArmyId: armyId,
+      castleId: castleId,
+      siegeTurn: 1,
+      startedOnTurn: this.turnNumber()
+    };
+    
+    this.activeSieges.update(sieges => [...sieges, newSiege]);
+    return siegeId;
+  }
+
+  incrementAllSiegeTurns() {
+    this.activeSieges.update(sieges => 
+      sieges.map(siege => ({
+        ...siege,
+        siegeTurn: siege.siegeTurn + 1
+      }))
+    );
+  }
+
+  endSiege(siegeId: string) {
+    this.activeSieges.update(sieges => 
+      sieges.filter(siege => siege.id !== siegeId)
+    );
+  }
+
+  getSiegeByArmyId(armyId: string): SiegeState | undefined {
+    return this.activeSieges().find(siege => siege.siegingArmyId === armyId);
+  }
+
+  getSiegeByCastleId(castleId: string): SiegeState | undefined {
+    return this.activeSieges().find(siege => siege.castleId === castleId);
+  }
+
+  getSiegeById(siegeId: string): SiegeState | undefined {
+    return this.activeSieges().find(siege => siege.id === siegeId);
+  }
+
+  isArmySieging(armyId: string): boolean {
+    return this.activeSieges().some(siege => siege.siegingArmyId === armyId);
+  }
+
+  isCastleUnderSiege(castleId: string): boolean {
+    return this.activeSieges().some(siege => siege.castleId === castleId);
+  }
+
+  getActiveSieges(): SiegeState[] {
+    return this.activeSieges();
   }
 }

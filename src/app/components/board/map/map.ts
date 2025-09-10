@@ -131,4 +131,8 @@ export class Map {
     }
     return { x: 0, y: 0 };
   }
+
+  isCastleUnderSiege(castleId: string): boolean {
+    return this.gameState.isCastleUnderSiege(castleId);
+  }
 }
