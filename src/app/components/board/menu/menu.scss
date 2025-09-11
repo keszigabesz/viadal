@@ -77,8 +77,14 @@
     }
 
     .army-name,
-    .army-strength {
+    .army-strength,
+    .army-movement {
       text-align: center;
+    }
+
+    .army-movement {
+      color: colors.$primary-dark;
+      font-weight: 500;
     }
   }
 

@@ -84,10 +84,35 @@ export class GameStateService {
           
           console.log('Moving army', armyId, 'from', army.position, 'to', newPosition);
           console.log('Updated position history:', updatedHistory);
-          return { ...army, position: newPosition, positionHistory: updatedHistory };
+          
+          // Decrease movement points by 1
+          const newMovementPoints = Math.max(0, army.movementPoints - 1);
+          
+          return { 
+            ...army, 
+            position: newPosition, 
+            positionHistory: updatedHistory,
+            movementPoints: newMovementPoints
+          };
         }
         return army;
       })
+    );
+  }
+
+  // New method to check if army can move
+  canArmyMove(armyId: string): boolean {
+    const army = this.getArmyById(armyId);
+    return army ? army.movementPoints > 0 : false;
+  }
+
+  // New method to restore movement points at turn end
+  restoreAllMovementPoints() {
+    this.armies.update((current) =>
+      current.map((army) => ({
+        ...army,
+        movementPoints: army.maxMovementPoints
+      }))
     );
   }
 
@@ -169,10 +194,24 @@ export class GameStateService {
       this.turnNumber.update(turn => turn + 1);
     }
 
+    // Restore movement points for all armies of the new current player
+    this.restoreMovementPointsForPlayer(this.currentPlayer());
+
     // Increment all active siege turns
     this.incrementAllSiegeTurns();
     
     this.deselectArmy(); // Deselect any selected army when turn ends
+  }
+
+  // New method to restore movement points for specific player
+  private restoreMovementPointsForPlayer(player: 'ott' | 'hun') {
+    this.armies.update((current) =>
+      current.map((army) => 
+        army.owner === player 
+          ? { ...army, movementPoints: army.maxMovementPoints }
+          : army
+      )
+    );
   }
 
   getCurrentPlayer() {

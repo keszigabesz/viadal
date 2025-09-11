@@ -66,7 +66,19 @@ export class ArmyService {
     
     if (!selectedArmy || !targetArmy) return false;
     
+    // Check if selected army has movement points
+    if (selectedArmy.movementPoints <= 0) return false;
+    
     return this.movementService.isValidMove(selectedArmy.position, targetArmy.position);
+  }
+
+  // New method to check if army can move to a position
+  canMoveToPosition(armyId: string, targetPosition: string): boolean {
+    const army = this.gameState.getArmyById(armyId);
+    
+    if (!army || army.movementPoints <= 0) return false;
+    
+    return this.movementService.isValidMove(army.position, targetPosition);
   }
 
   areSameOwner(armyId1: string, armyId2: string): boolean {

@@ -32,29 +32,15 @@ export class Map {
   }
 
   selectArmy(armyId: string) {
-    // Don't allow army selection during battle
-    if (this.isBattleOngoing()) {
-      return;
-    }
-
     const currentSelectedId = this.gameState.selectedArmyId();
     
-    // If no army is currently selected, only allow selecting own armies
-    if (!currentSelectedId) {
-      const targetArmy = this.gameState.getArmyById(armyId);
-      const currentPlayer = this.gameState.getCurrentPlayer();
-      
-      if (!targetArmy || targetArmy.owner !== currentPlayer) {
-        // Don't select enemy armies when no army is selected
+    if (currentSelectedId) {
+      // If clicking on the same army that's already selected, deselect it
+      if (currentSelectedId === armyId) {
+        this.gameState.deselectArmy();
         return;
       }
       
-      this.gameState.selectArmy(armyId);
-      return;
-    }
-    
-    // If an army is already selected, continue with existing logic
-    if (currentSelectedId !== armyId) {
       if (this.armyService.canInteractWithArmy(currentSelectedId, armyId)) {
         if (this.armyService.areSameOwner(currentSelectedId, armyId)) {
           // Move to ally position
@@ -74,14 +60,20 @@ export class Map {
         }
       }
     } else {
-      this.gameState.deselectArmy();
+      // No army currently selected, select this one if it belongs to current player
+      const targetArmy = this.gameState.getArmyById(armyId);
+      const currentPlayer = this.gameState.getCurrentPlayer();
+      
+      if (targetArmy && targetArmy.owner === currentPlayer) {
+        this.gameState.selectArmy(armyId);
+      }
     }
   }
 
   onPositionClick(positionId: string): void {
     console.log(positionId);
     const currentSelectedId = this.gameState.selectedArmyId();
-    if (currentSelectedId && this.isNeighbor(positionId)) {
+    if (currentSelectedId && this.isNeighbor(positionId) && this.gameState.canArmyMove(currentSelectedId)) {
       const targetCastle = this.castles().find((castle) => castle.id === positionId);
       if (targetCastle) {
         this.handleCastleClick(targetCastle, currentSelectedId);
@@ -103,8 +95,14 @@ export class Map {
 
   private moveSelectedArmy(newPositionId: string): void {
     const selectedId = this.gameState.selectedArmyId();
-    if (selectedId) {
+    if (selectedId && this.gameState.canArmyMove(selectedId)) {
       this.gameState.moveArmy(selectedId, newPositionId);
+      
+      // Check if army has no movement points left after the move
+      const army = this.gameState.getArmyById(selectedId);
+      if (army && army.movementPoints <= 0) {
+        this.gameState.deselectArmy();
+      }
     }
   }
 
