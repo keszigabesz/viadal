@@ -79,7 +79,7 @@ export class GameStateService {
             updatedHistory = army.positionHistory.slice(existingIndex);
           } else {
             // If it's a new position, add to beginning and keep only last 5
-            updatedHistory = [newPosition, ...army.positionHistory].slice(0, 5);
+            updatedHistory = [newPosition, ...army.positionHistory].slice(0, 6);
           }
           
           console.log('Moving army', armyId, 'from', army.position, 'to', newPosition);
