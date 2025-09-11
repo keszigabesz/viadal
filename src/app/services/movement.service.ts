@@ -11,9 +11,4 @@ export class MovementService {
 
     return currentPositionLayout.neighbors.includes(toPositionId);
   }
-
-  getNeighbors(positionId: string): string[] {
-    const positionLayout = MAP_LAYOUT.find((layout) => layout.id === positionId);
-    return positionLayout?.neighbors || [];
-  }
 }
