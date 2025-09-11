@@ -106,16 +106,6 @@ export class GameStateService {
     return army ? army.movementPoints > 0 : false;
   }
 
-  // New method to restore movement points at turn end
-  restoreAllMovementPoints() {
-    this.armies.update((current) =>
-      current.map((army) => ({
-        ...army,
-        movementPoints: army.maxMovementPoints
-      }))
-    );
-  }
-
   // Army selection methods
   selectArmy(armyId: string | null) {
     this.selectedArmyId.set(armyId);
