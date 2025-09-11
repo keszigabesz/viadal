@@ -29,7 +29,7 @@
     </div>
     <span class="army-name">Magyar mezei had</span>
     <span class="army-strength">{{ selectedArmy()?.strength }} ezer fő</span>
-    <span class="army-movement">{{ selectedArmy()?.movementPoints }}/{{ selectedArmy()?.maxMovementPoints }} lépés</span>
+    <span class="army-movement">{{ selectedArmy()?.movementPoints }} lépés maradt</span>
     } @else {
     <div class="army-flag">
       <img [src]="'images/flags/' + selectedArmy()?.owner + '.png'" alt="army flag" />
