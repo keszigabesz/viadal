@@ -35,7 +35,7 @@ export class GameStateService {
     isOngoing: false,
     attackingArmy: null,
     defendingArmy: null,
-    isResolved: false
+    isResolved: false,
   });
 
   activeSieges = signal<SiegeState[]>([]);
@@ -52,9 +52,6 @@ export class GameStateService {
   }
 
   // Army methods
-  addArmy(army: Army) {
-    this.armies.update((current) => [...current, army]);
-  }
 
   removeArmy(armyId: string) {
     this.armies.update((current) => current.filter((army) => army.id !== armyId));
@@ -72,7 +69,7 @@ export class GameStateService {
         if (army.id === armyId) {
           // Check if the new position already exists in the history
           const existingIndex = army.positionHistory.indexOf(newPosition);
-          
+
           let updatedHistory: string[];
           if (existingIndex !== -1) {
             // If position exists in history, restore history to that point
@@ -81,18 +78,18 @@ export class GameStateService {
             // If it's a new position, add to beginning and keep only last 5
             updatedHistory = [newPosition, ...army.positionHistory].slice(0, 6);
           }
-          
+
           console.log('Moving army', armyId, 'from', army.position, 'to', newPosition);
           console.log('Updated position history:', updatedHistory);
-          
+
           // Decrease movement points by 1
           const newMovementPoints = Math.max(0, army.movementPoints - 1);
-          
-          return { 
-            ...army, 
-            position: newPosition, 
+
+          return {
+            ...army,
+            position: newPosition,
             positionHistory: updatedHistory,
-            movementPoints: newMovementPoints
+            movementPoints: newMovementPoints,
           };
         }
         return army;
@@ -123,38 +120,44 @@ export class GameStateService {
 
   // Battle methods
   startBattle(attackingArmyId: string, defendingArmyId: string) {
-    const attackingArmy = this.armies().find(army => army.id === attackingArmyId);
-    const defendingArmy = this.armies().find(army => army.id === defendingArmyId);
-    
+    const attackingArmy = this.armies().find((army) => army.id === attackingArmyId);
+    const defendingArmy = this.armies().find((army) => army.id === defendingArmyId);
+
     this.deselectArmy();
-    
+
     if (attackingArmy && defendingArmy) {
       this.battleState.set({
         isOngoing: true,
         attackingArmy,
         defendingArmy,
-        isResolved: false
+        isResolved: false,
       });
     }
   }
 
   markBattleAsResolved() {
-    this.battleState.update(state => ({
+    this.battleState.update((state) => ({
       ...state,
-      isResolved: true
+      isResolved: true,
     }));
   }
 
-  setBattleResult(outcome: string, attackerLosses: number, defenderLosses: number, originalAttackerStrength: number, originalDefenderStrength: number) {
-    this.battleState.update(state => ({
+  setBattleResult(
+    outcome: string,
+    attackerLosses: number,
+    defenderLosses: number,
+    originalAttackerStrength: number,
+    originalDefenderStrength: number
+  ) {
+    this.battleState.update((state) => ({
       ...state,
       battleResult: {
         outcome,
         attackerLosses,
         defenderLosses,
         originalAttackerStrength,
-        originalDefenderStrength
-      }
+        originalDefenderStrength,
+      },
     }));
   }
 
@@ -163,7 +166,7 @@ export class GameStateService {
       isOngoing: false,
       attackingArmy: null,
       defendingArmy: null,
-      isResolved: false
+      isResolved: false,
     });
   }
 
@@ -177,11 +180,11 @@ export class GameStateService {
 
   // Turn methods
   endTurn() {
-    this.currentPlayer.update(current => current === 'ott' ? 'hun' : 'ott');
-    
+    this.currentPlayer.update((current) => (current === 'ott' ? 'hun' : 'ott'));
+
     // Only increment turn number when Ottoman's turn ends (completing a full round)
     if (this.currentPlayer() === 'ott') {
-      this.turnNumber.update(turn => turn + 1);
+      this.turnNumber.update((turn) => turn + 1);
     }
 
     // Restore movement points for all armies of the new current player
@@ -189,17 +192,15 @@ export class GameStateService {
 
     // Increment all active siege turns
     this.incrementAllSiegeTurns();
-    
+
     this.deselectArmy(); // Deselect any selected army when turn ends
   }
 
   // New method to restore movement points for specific player
   private restoreMovementPointsForPlayer(player: 'ott' | 'hun') {
     this.armies.update((current) =>
-      current.map((army) => 
-        army.owner === player 
-          ? { ...army, movementPoints: army.maxMovementPoints }
-          : army
+      current.map((army) =>
+        army.owner === player ? { ...army, movementPoints: army.maxMovementPoints } : army
       )
     );
   }
@@ -212,12 +213,8 @@ export class GameStateService {
     return this.turnNumber();
   }
 
-  isPlayerTurn(player: 'ott' | 'hun') {
-    return this.currentPlayer() === player;
-  }
-
   getArmyById(armyId: string) {
-    return this.armies().find(army => army.id === armyId) || null;
+    return this.armies().find((army) => army.id === armyId) || null;
   }
 
   // Siege methods
@@ -228,46 +225,44 @@ export class GameStateService {
       siegingArmyId: armyId,
       castleId: castleId,
       siegeTurn: 1,
-      startedOnTurn: this.turnNumber()
+      startedOnTurn: this.turnNumber(),
     };
-    
-    this.activeSieges.update(sieges => [...sieges, newSiege]);
+
+    this.activeSieges.update((sieges) => [...sieges, newSiege]);
     return siegeId;
   }
 
   incrementAllSiegeTurns() {
-    this.activeSieges.update(sieges => 
-      sieges.map(siege => ({
+    this.activeSieges.update((sieges) =>
+      sieges.map((siege) => ({
         ...siege,
-        siegeTurn: siege.siegeTurn + 1
+        siegeTurn: siege.siegeTurn + 1,
       }))
     );
   }
 
   endSiege(siegeId: string) {
-    this.activeSieges.update(sieges => 
-      sieges.filter(siege => siege.id !== siegeId)
-    );
+    this.activeSieges.update((sieges) => sieges.filter((siege) => siege.id !== siegeId));
   }
 
   getSiegeByArmyId(armyId: string): SiegeState | undefined {
-    return this.activeSieges().find(siege => siege.siegingArmyId === armyId);
+    return this.activeSieges().find((siege) => siege.siegingArmyId === armyId);
   }
 
   getSiegeByCastleId(castleId: string): SiegeState | undefined {
-    return this.activeSieges().find(siege => siege.castleId === castleId);
+    return this.activeSieges().find((siege) => siege.castleId === castleId);
   }
 
   getSiegeById(siegeId: string): SiegeState | undefined {
-    return this.activeSieges().find(siege => siege.id === siegeId);
+    return this.activeSieges().find((siege) => siege.id === siegeId);
   }
 
   isArmySieging(armyId: string): boolean {
-    return this.activeSieges().some(siege => siege.siegingArmyId === armyId);
+    return this.activeSieges().some((siege) => siege.siegingArmyId === armyId);
   }
 
   isCastleUnderSiege(castleId: string): boolean {
-    return this.activeSieges().some(siege => siege.castleId === castleId);
+    return this.activeSieges().some((siege) => siege.castleId === castleId);
   }
 
   getActiveSieges(): SiegeState[] {
